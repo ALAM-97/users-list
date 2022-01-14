@@ -1,23 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
+// components
+import UserForm from './components/UserForm';
 
 function App() {
+  // funzione per ricevere i dati del nuovo utente da UserForm.js
+  const submitFormHandler = (newUserData) => {
+    const allNewUserInfos = {
+      ...newUserData
+    }
+    console.log(allNewUserInfos)
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <UserForm onSubmitForm={ submitFormHandler } />
     </div>
   );
 }
