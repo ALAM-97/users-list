@@ -1,0 +1,8 @@
+.singleUser {
+  padding: 10px;
+  background-color: rgb(224, 224, 224);
+  margin: 10px auto;
+  border-radius: 5px;
+  font-style: italic;
+  font-weight: bold;
+}

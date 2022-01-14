@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import './UserForm.css';
+// style
+import styles from  './UserForm.module.css';
 
 const UserForm = (props) => {
   // assegno gli stati
@@ -9,13 +10,11 @@ const UserForm = (props) => {
   // funzione per assegnare lo stato all'username
   const usernameHandler = (event) => {
     setUsername(event.target.value)
-    console.log(username)
   }
 
   // funzione per assegnare lo stato all'age
   const ageHandler = (event) => {
     setAge(event.target.value)
-    console.log(age)
   }
   
   // funzione per submittare il form
@@ -23,19 +22,23 @@ const UserForm = (props) => {
     event.preventDefault();
 
     const allNewUserInfos = {
+      id: Math.random(),
       username: username,
-      age: age,
-      id: Math.random()
+      age: age
     }
 
     props.onSubmitForm(allNewUserInfos);
     setUsername('');
     setAge('');
+
+    if ( age.length < 1 || username.length < 1 ) {
+      console.log('error');
+    }
   }
 
 
   return ( 
-    <form className="formContainer" onSubmit={ submitHandler }>
+    <form className={ styles.formContainer } onSubmit={ submitHandler }>
       <label htmlFor="username">Username</label>
       <input 
         value={ username } 
