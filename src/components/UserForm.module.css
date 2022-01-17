@@ -20,13 +20,3 @@
 .formContainer input:focus {
   outline: none;
 }
-
-.formContainer button {
-  width: 100px;
-  padding: 7px 10px;
-  border: none;
-  background-color: royalblue;
-  margin-top: 10px;
-  border-radius: 5px;
-  color: #fff;
-}

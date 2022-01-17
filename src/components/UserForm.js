@@ -1,39 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 // style
 import styles from  './UserForm.module.css';
 
 const UserForm = (props) => {
   // assegno gli stati
-  const [username, setUsername] = useState('');
-  const [age, setAge] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // funzione per assegnare lo stato all'username
-  const usernameHandler = (event) => {
-    setUsername(event.target.value)
-  }
+  const inputUsername = useRef();
+  const inputAge = useRef();
 
-  // funzione per assegnare lo stato all'age
-  const ageHandler = (event) => {
-    setAge(event.target.value)
-  }
-  
   // funzione per submittare il form
   const submitHandler = (event) => {
     event.preventDefault();
+    const enteredName = inputUsername.current.value;
+    const enteredAge = inputAge.current.value;
 
+    // validazione form
+    if (enteredName.trim().length === 0 && enteredAge.trim().length === 0) {
+      setError(true);
+      setErrorMessage('Devi inserire i valori richiesti!');
+      props.onError(error, errorMessage);
+      return;
+    }
+    if (+enteredAge < 1) {
+      setError(true);
+      setErrorMessage("Il valore dell'età deve essere maggiore di 0");
+      props.onError(error, errorMessage);
+      return;
+    }
+    // ritorna il nuovo utente se il form è stato compilato correttamente
     const allNewUserInfos = {
       id: Math.random(),
-      username: username,
-      age: age
+      username: enteredName,
+      age: enteredAge
     }
 
     props.onSubmitForm(allNewUserInfos);
-    setUsername('');
-    setAge('');
+    setError(false);
 
-    if ( age.length < 1 || username.length < 1 ) {
-      console.log('error');
-    }
+    inputUsername.current.value = '';
+    inputAge.current.value = '';
   }
 
 
@@ -41,17 +48,15 @@ const UserForm = (props) => {
     <form className={ styles.formContainer } onSubmit={ submitHandler }>
       <label htmlFor="username">Username</label>
       <input 
-        value={ username } 
-        onChange={ usernameHandler } 
         name="username" 
         type="text"
+        ref={ inputUsername }
       />
       <label htmlFor="age">Age (Years)</label>
       <input 
-        value={ age } 
-        onChange={ ageHandler } 
         type="number" 
-        name="age" 
+        name="age"
+        ref={ inputAge }
       />
       <button type="submit">Add user</button>
     </form>
